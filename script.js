@@ -359,3 +359,53 @@ const restaurant = {
 
 // ordersSet.clear(); // odstraneni celeho setu
 // console.log(ordersSet);
+
+
+// ==============================================================================================
+// ============================== DATA STRUCTURES: MAPS =========================================
+
+// Metody:
+// - set()
+// - get()
+// - has()
+
+// const rest = new Map();
+// rest.set('name', 'Classico Intaliano');
+// rest.set(1, 'Firenze, Italy');
+// console.log(rest.set(2, 'Lisabon, Portugal'));
+
+// rest.set('categories', ['Italian', 'Pizzeria', 'Vegetarian', 'Organic']) // set() can be chained
+//   .set('open', 11)
+//   .set('close', 23)
+//   .set(true, 'We are open :D')
+//   .set(false, 'We are closed :(');
+
+// console.log(rest.get('name')); // get map value
+// console.log(rest.get(true));
+
+// // Prakticky priklad - having booleans as map keys
+// const time = 21;
+// console.log(rest.get(time > rest.get('open') && time < rest.get('close')));
+
+// // Metoda has() - vraci bool
+// console.log(rest);
+// console.log(rest.has('categories'));
+// rest.delete(2);
+// console.log(rest);
+
+// console.log(rest.size); // get size
+// // rest.clear(); // delete map elemets
+
+// // this will not work (calling array with same definition)
+// rest.set([1,2], 'Test')
+// console.log(rest);
+// console.log(rest.get([1,2]));
+
+// // ...we have to do that this way:
+// const arr = [1,2];
+// rest.set(arr, 'Test');
+// console.log(rest.get(arr));
+
+// // DOM
+// rest.set(document.querySelector('h1'), 'Heading');
+// console.log(rest);
