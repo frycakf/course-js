@@ -435,7 +435,7 @@ for (const [key, value] of question) {
   console.log(`Answer ${key}: ${value}`);
 }
 
-// QUiz app
+// Quiz app
 // const answer = Number(prompt('Your answes'));
 //console.log(answer);
 //console.log(question.get('correct'));
