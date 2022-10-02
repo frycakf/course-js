@@ -69,9 +69,7 @@ const displayMovements = function (movements) {
 
     const html = `
       <div class="movements__row">
-        <div class="movements__type movements__type--${type}">${
-      i + 1
-    } ${type}</div>
+        <div class="movements__type movements__type--${type}">${i + 1} ${type}</div>
         <div class="movements__value">${mov}</div>
       </div>
     `;
@@ -85,39 +83,28 @@ displayMovements(account1.movements);
 /////////////////////////////////////////////////
 // LECTURES
 
-// const currencies = new Map([
-//   ['USD', 'United States dollar'],
-//   ['EUR', 'Euro'],
-//   ['GBP', 'Pound sterling'],
-// ]);
+const currencies = new Map([
+  ['USD', 'United States dollar'],
+  ['EUR', 'Euro'],
+  ['GBP', 'Pound sterling'],
+]);
 
-// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
-// const eurToUsd = 1.1;
+const eurToUsd = 1.1;
 
-// const movementsUSD = movements.map(mov => mov * eurToUsd);
+const movementsUSD = movements.map(mov => mov * eurToUsd);
 
 // const movementsUSD = [];
 // for (const mov of movements) {
 //   movementsUSD.push(mov * eurToUsd);
 // }
 
-// console.log(movements);
-// console.log(movementsUSD);
+console.log(movements);
+console.log(movementsUSD);
 
-// movements.map((mov, i, arr) => {
-//   const type = mov > 0 ? 'deposit' : 'withdrawal';
+const movementsDescriptions = movements.map((mov, i) => 
+  `Movement ${i + 1}: You ${mov >0 ? 'deposited' : 'withdrew'} ${Math.abs(mov)}`
+);
 
-//     const html = `
-//       <div class="movements__row">
-//         <div class="movements__type movements__type--${type}">${
-//       i + 1
-//     } ${type}</div>
-//         <div class="movements__value">${mov}</div>
-//       </div>
-//     `;
-
-//     containerMovements.insertAdjacentHTML('afterbegin', html);
-// })
-
-/////////////////////////////////////////////////
+console.log(movementsDescriptions);
