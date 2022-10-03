@@ -79,6 +79,26 @@ const displayMovements = function (movements) {
 };
 displayMovements(account1.movements);
 
+const calcDisplayBalance = function(movements) {
+  const balance = movements.reduce(function (acc, mov) {
+    return acc + mov;
+  }, 0);
+  labelBalance.textContent = `${balance} €`;
+}
+
+const createUsernames = function(accs) {
+  accs.forEach(function(acc) {
+    acc.username = acc.owner
+    .toLowerCase()
+    .split(' ')
+    .map(name => name[0])
+    .join('');
+  })
+};
+
+createUsernames(accounts);
+calcDisplayBalance(account1.movements);
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -100,11 +120,37 @@ const movementsUSD = movements.map(mov => mov * eurToUsd);
 //   movementsUSD.push(mov * eurToUsd);
 // }
 
-console.log(movements);
-console.log(movementsUSD);
 
 const movementsDescriptions = movements.map((mov, i) => 
   `Movement ${i + 1}: You ${mov >0 ? 'deposited' : 'withdrew'} ${Math.abs(mov)}`
 );
 
 console.log(movementsDescriptions);
+
+const deposits = movements.filter(function(mov) {
+  return mov > 0;
+})
+
+const withdrawals = movements.filter(function(mov) {
+  return mov < 0;
+})
+
+const balance = movements.reduce(function(acc, cur, i, arr) {
+  console.log(`Iteration number ${i}: ${acc}`);
+  return acc + cur;
+}, 0);
+
+console.log(movements);
+console.log(deposits);
+console.log(withdrawals);
+console.log(balance);
+
+const years = [2020, 2021, 2022, 2023, 2024, 2025]
+
+// Maximum
+const max = movements.reduce(function(acc, cur) {
+  return acc > cur ? acc : cur;
+}, movements[0]);
+
+console.log(max);
+
