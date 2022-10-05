@@ -70,7 +70,7 @@ const displayMovements = function (movements) {
     const html = `
       <div class="movements__row">
         <div class="movements__type movements__type--${type}">${i + 1} ${type}</div>
-        <div class="movements__value">${mov}</div>
+        <div class="movements__value">${mov}€</div>
       </div>
     `;
 
@@ -99,6 +99,26 @@ const createUsernames = function(accs) {
 createUsernames(accounts);
 calcDisplayBalance(account1.movements);
 
+const calcDisplaySummary = function(movements) {
+  const incomes = movements
+    .filter(mov => mov > 0)
+    .reduce((sum, mov) => sum + mov, 0);
+  labelSumIn.textContent = incomes + '€';
+
+  const outcomes = movements
+    .filter(mov => mov < 0)
+    .reduce((sum, mov) => sum + mov, 0);
+  labelSumOut.textContent = `${Math.abs(outcomes)}€`
+
+  const interest = movements
+    .filter(mov => mov > 0)
+    .map(deposit => deposit * 0.012)
+    .filter(interest => interest >= 1)
+    .reduce((sum, interest) => sum + interest, 0);
+  labelSumInterest.textContent = `${interest}€`;
+}
+calcDisplaySummary(account1.movements)
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -125,7 +145,7 @@ const movementsDescriptions = movements.map((mov, i) =>
   `Movement ${i + 1}: You ${mov >0 ? 'deposited' : 'withdrew'} ${Math.abs(mov)}`
 );
 
-console.log(movementsDescriptions);
+// console.log(movementsDescriptions);
 
 const deposits = movements.filter(function(mov) {
   return mov > 0;
@@ -136,14 +156,14 @@ const withdrawals = movements.filter(function(mov) {
 })
 
 const balance = movements.reduce(function(acc, cur, i, arr) {
-  console.log(`Iteration number ${i}: ${acc}`);
+  // console.log(`Iteration number ${i}: ${acc}`);
   return acc + cur;
 }, 0);
 
-console.log(movements);
-console.log(deposits);
-console.log(withdrawals);
-console.log(balance);
+// console.log(movements);
+// console.log(deposits);
+// console.log(withdrawals);
+// console.log(balance);
 
 const years = [2020, 2021, 2022, 2023, 2024, 2025]
 
@@ -152,5 +172,14 @@ const max = movements.reduce(function(acc, cur) {
   return acc > cur ? acc : cur;
 }, movements[0]);
 
-console.log(max);
+// console.log(max);
+
+
+// Pipeline
+const totalDepositsUSD = movements
+  .filter(mov => mov > 0)
+  .map(mov => mov * eurToUsd)
+  .reduce((acc, mov) => acc + mov, 0);
+
+console.log(totalDepositsUSD);
 
