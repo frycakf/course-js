@@ -81,11 +81,11 @@ const displayMovements = function (movements) {
   });
 };
 
-const calcDisplayBalance = function(movements) {
-  const balance = movements.reduce(function (acc, mov) {
+const calcDisplayBalance = function(acc) {
+  acc.balance = acc.movements.reduce(function (acc, mov) {
     return acc + mov;
   }, 0);
-  labelBalance.textContent = `${balance} €`;
+  labelBalance.textContent = `${acc.balance} €`;
 }
 
 const createUsernames = function(accs) {
@@ -119,6 +119,17 @@ const calcDisplaySummary = function(acc) {
 
 createUsernames(accounts);
 
+const updateUI = function(acc) {
+  // Display movements
+  displayMovements(acc.movements);
+
+  // Display balance
+  calcDisplayBalance(acc);
+
+  // Display summary
+  calcDisplaySummary(acc);
+}
+
 // Event handler
 let currentAccount;
 
@@ -126,7 +137,6 @@ btnLogin.addEventListener('click', function(e) {
   e.preventDefault();
   
   currentAccount = accounts.find(acc => acc.username === inputLoginUsername.value);
-  console.log(currentAccount);
 
   if(currentAccount?.pin === Number(inputLoginPin.value)) {
     // Display UI and welcome message
@@ -137,16 +147,28 @@ btnLogin.addEventListener('click', function(e) {
     inputLoginUsername.value = inputLoginPin.value ='';
     inputLoginPin.blur();
     
-    // Display movements
-    displayMovements(currentAccount.movements);
-
-    // Display balance
-    calcDisplayBalance(currentAccount.movements);
-
-    // Display summary
-    calcDisplaySummary(currentAccount);
+    updateUI(currentAccount);
   }
 })
+
+btnTransfer.addEventListener('click', function(e) {
+  e.preventDefault();
+  const amount = Number(inputTransferAmount.value);
+  const receiverAcc = accounts.find(acc => acc.username === inputTransferTo.value);
+
+  if(
+      amount > 0 &&
+      receiverAcc &&
+      currentAccount.balance >= amount &&
+      receiverAcc?.username !== currentAccount.username
+  ) {
+    currentAccount.movements.push(-amount);
+    receiverAcc.movements.push(amount);
+    updateUI(currentAccount);
+  }
+
+  inputTransferAmount.value = inputTransferTo.value = '';
+});
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
