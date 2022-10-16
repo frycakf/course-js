@@ -64,10 +64,12 @@ const inputClosePin = document.querySelector('.form__input--pin');
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 const eurToUsd = 1.1;
 
-const displayMovements = function (movements) {
+const displayMovements = function (movements, sort = false) {
   containerMovements.innerHTML = '';
 
-  movements.forEach(function (mov, i) {
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+
+  movs.forEach(function (mov, i) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
 
     const html = `
@@ -199,52 +201,40 @@ btnClose.addEventListener('click', function(e) {
   inputCloseUsername.value = inputClosePin.value = '';
 })
 
+let sorted = false;
+btnSort.addEventListener('click', function(e) {
+  e.preventDefault();
+  displayMovements(currentAccount.movements, !sorted)
+  sorted = !sorted;
+})
+
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
 
-const currencies = new Map([
-  ['USD', 'United States dollar'],
-  ['EUR', 'Euro'],
-  ['GBP', 'Pound sterling'],
-]);
+const x = new Array(7);
+console.log(x);
+// x.fill(1);
+x.fill(1, 3, 5);
+console.log(x);
 
-// console.log(movements)
-//
-// // EQUALITY
-// console.log(movements.includes(-130));
-//
-// // CONDITION
-// console.log(movements.some(mov => mov === -130));
-//
-// const anyDeposits = movements.some(mov => mov > 1500);
-// console.log(anyDeposits);
-//
-// console.log(movements.every(mov => mov > 0));
-// console.log(account4.movements.every(mov => mov > 0));
+const arr = [1, 2, 3, 4, 5, 6, 7];
+console.log(arr.fill(23, 4, 6));
 
-const arr = [[1, 2, 3], [4, 5, 6], 7, 8];
-const arrDeep = [[[1, 2], 3], [4, [5, 6]], 7, 8];
-console.log(arr.flat()); // only goes one level deep (by default)
-console.log(arrDeep.flat(2));
+// Array.from
+const y = Array.from({length: 7}, () => 1);
+console.log(y)
 
-// const accountMovements = accounts.map(acc => acc.movements);
-// console.log(accountMovements)
-//
-// const allMovements = accountMovements.flat();
-// console.log(allMovements)
-//
-// const overalBalance = allMovements.reduce((acc, mov) => acc + mov, 0);
-// console.log(overalBalance);
+const z = Array.from({length: 7}, (_, i) => i + 1);
+console.log(z)
 
-const overallBalance = accounts
-    .map(acc => acc.movements)
-    .flat()
-    .reduce((acc, mov) => acc + mov, 0);
-console.log(overallBalance)
+const diceRolls = Array.from({length: 100}, () => Math.ceil(Math.random() * 6));
+console.log(diceRolls);
 
+labelBalance.addEventListener('click', function () {
+  const movementsUI = Array.from(document.querySelectorAll('.movements__value'), el => Number(el.textContent.replace('€', '')));
+  console.log(movementsUI);
 
-const overallBalance2 = accounts
-    .flatMap(acc => acc.movements)
-    .reduce((acc, mov) => acc + mov, 0);
-console.log(overallBalance2)
+  const movementsUI2 = [...document.querySelectorAll('.movements__value')];
+})
