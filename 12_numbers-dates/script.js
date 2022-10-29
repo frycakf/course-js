@@ -181,14 +181,42 @@ const updateUI = function (acc) {
   calcDisplaySummary(acc);
 };
 
+const startLogOutTimer = function () {
+  const tick = function () {
+    const min = String(Math.floor(time / 60)).padStart(2, 0);
+    const sec = String(time % 60).padStart(2, 0);
+    // In each call, print the remaining time
+    labelTimer.textContent = `${min}:${sec}`;
+
+    // When 0 seconds, stop timer and log out user
+    if(time < 0) {
+      clearInterval(timer)
+      labelTimer.textContent = `Login to get started`;
+      containerApp.style.opacity = '0';
+    }
+
+    // Decrease 1s
+    time--;
+  }
+
+  // Set time to 5 minutes
+  let time = 5 * 60;
+
+  // Call the timer every second
+  tick();
+  const timer = setInterval(tick, 1000);
+
+  return timer;
+}
+
 ///////////////////////////////////////
 // Event handlers
-let currentAccount;
+let currentAccount, timer;
 
 // FAKE ALWAYS LOGGED IN
-currentAccount = account1;
-updateUI(currentAccount);
-containerApp.style.opacity = '100';
+// currentAccount = account1;
+// updateUI(currentAccount);
+// containerApp.style.opacity = '100';
 
 // day/month/year
 
@@ -207,12 +235,14 @@ btnLogin.addEventListener('click', function (e) {
     }`;
     containerApp.style.opacity = '100';
 
-    // Create current date and time
-    const now = new Date();
-
     // Clear input fields
     inputLoginUsername.value = inputLoginPin.value = '';
     inputLoginPin.blur();
+
+    // Timer
+    if (timer) clearInterval(timer);
+
+    timer = startLogOutTimer();
 
     // Update UI
     updateUI(currentAccount);
@@ -244,6 +274,10 @@ btnTransfer.addEventListener('click', function (e) {
 
     // Update UI
     updateUI(currentAccount);
+
+    // Reset timer
+    clearInterval(timer);
+    timer = startLogOutTimer();
   }
 });
 
@@ -264,6 +298,10 @@ btnLoan.addEventListener('click', function (e) {
       // Update UI
       updateUI(currentAccount);
     }, 2500)
+
+    // Reset timer
+    clearInterval(timer);
+    timer = startLogOutTimer();
   }
   inputLoanAmount.value = '';
 });
