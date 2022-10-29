@@ -298,29 +298,3 @@ btnSort.addEventListener('click', function (e) {
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
-
-const future = new Date(2037, 10, 19, 15, 23);
-console.log(+future);
-
-const calcDaysPassed = (date1, date2) => Math.abs(date2 - date1) / (1000 * 60 * 60 * 24);
-
-console.log(calcDaysPassed(
-  new Date(2037, 3, 14,),
-  new Date(2037, 3, 24, )
-));
-
-const num = 3546646.23;
-
-// Docs: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl
-const options = {
-  style: 'currency', // unit|percent|currency
-  unit: 'celsius',
-  currency: 'EUR',
-  useGrouping: true // true|false
-}
-
-console.log('US:', new Intl.NumberFormat('en-US', options).format(num));
-console.log('Germany:', new Intl.NumberFormat('de-DE', options).format(num));
-console.log('Syria:', new Intl.NumberFormat('ar-SY', options).format(num));
-console.log('Czech:', new Intl.NumberFormat('cs-CZ', options).format(num));
-console.log('Browser:', new Intl.NumberFormat(navigator.language, options).format(num));
