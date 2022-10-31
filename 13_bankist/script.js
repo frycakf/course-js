@@ -50,11 +50,11 @@ btnScrollTo.addEventListener('click', function (e) {
   console.log(s1coords);
 
   // Scrolll position
-  console.log(e.target.getBoundingClientRect());
-  console.log('Current scroll (X/Y): ', window.pageXOffset, window.pageYOffset);
+  // console.log(e.target.getBoundingClientRect());
+  // console.log('Current scroll (X/Y): ', window.pageXOffset, window.pageYOffset);
 
   // Window size
-  console.log('height/width viewport: ', document.documentElement.clientHeight, document.documentElement.clientWidth);
+  // console.log('height/width viewport: ', document.documentElement.clientHeight, document.documentElement.clientWidth);
 
   // Oldest way
   // window.scrollTo(s1coords.left + window.pageXOffset, s1coords.top + window.pageYOffset);
@@ -68,4 +68,28 @@ btnScrollTo.addEventListener('click', function (e) {
 
   // Modern way
   section1.scrollIntoView({behavior: 'smooth'});
-})
+});
+
+const h1 = document.querySelector('h1');
+
+// Other way of defining - THIS IS PRETTY OLD SCHOOL
+// h1.onmouseenter = function (e) {
+//   alert('addEventListener: Great! You are reading the heading');
+// };
+
+const alertH1 = function (e) {
+  alert('addEventListener: Great! You are reading the heading');
+  h1.removeEventListener('mouseenter', alertH1);
+};
+
+h1.addEventListener('mouseenter', alertH1)
+
+setTimeout(() => h1.removeEventListener('mouseenter', alertH1), 3000);
+
+// This is better because:
+// this way we can define more eventListeners on one element
+// this way we can remove eventListeners
+
+
+
+
