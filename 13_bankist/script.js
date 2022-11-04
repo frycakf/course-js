@@ -89,7 +89,3 @@ setTimeout(() => h1.removeEventListener('mouseenter', alertH1), 3000);
 // This is better because:
 // this way we can define more eventListeners on one element
 // this way we can remove eventListeners
-
-
-
-
