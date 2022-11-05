@@ -7,6 +7,8 @@ const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+const section1 = document.querySelector('#section--1');
 
 const openModal = function (e) {
   e.preventDefault();
@@ -38,54 +40,37 @@ header.append(message); // as the last child
 
 // Delete elements
 document.querySelector('.btn--close-cookie').addEventListener('click', function () {
-  // message.parentElement.removeChild(message); // old way
   message.remove(); // new way
 })
 
-const btnScrollTo = document.querySelector('.btn--scroll-to');
-const section1 = document.querySelector('#section--1');
-
+///////////////////////////////////////
+// Button scrolling
 btnScrollTo.addEventListener('click', function (e) {
-  const s1coords = section1.getBoundingClientRect();
-  console.log(s1coords);
-
-  // Scrolll position
-  // console.log(e.target.getBoundingClientRect());
-  // console.log('Current scroll (X/Y): ', window.pageXOffset, window.pageYOffset);
-
-  // Window size
-  // console.log('height/width viewport: ', document.documentElement.clientHeight, document.documentElement.clientWidth);
-
-  // Oldest way
-  // window.scrollTo(s1coords.left + window.pageXOffset, s1coords.top + window.pageYOffset);
-
-  // Old way
-  // window.scrollTo({
-  //   left: s1coords.left + window.pageXOffset,
-  //   top: s1coords.top + window.pageYOffset,
-  //   behavior: 'smooth'
-  // });
-
-  // Modern way
   section1.scrollIntoView({behavior: 'smooth'});
 });
 
-const h1 = document.querySelector('h1');
+///////////////////////////////////////
+// Page navigation
 
-// Other way of defining - THIS IS PRETTY OLD SCHOOL
-// h1.onmouseenter = function (e) {
-//   alert('addEventListener: Great! You are reading the heading');
-// };
+// This is INEFFICIENT: adding eventListener to many elements
+// document.querySelectorAll('.nav__link').forEach(function (el) {
+//   el.addEventListener('click', function (e) {
+//     e.preventDefault();
+//     const id = this.getAttribute('href'); // vs. this.href
+//     document.querySelector(id).scrollIntoView({behavior: 'smooth'});
+//   });
+// })
 
-const alertH1 = function (e) {
-  alert('addEventListener: Great! You are reading the heading');
-  h1.removeEventListener('mouseenter', alertH1);
-};
+// This is EFFICIENT: with event delegation
+// 1. add event listener to common parent element
+// 2. Determine what element originated the event
 
-h1.addEventListener('mouseenter', alertH1)
+document.querySelector('.nav__links').addEventListener('click', function (e){
 
-setTimeout(() => h1.removeEventListener('mouseenter', alertH1), 3000);
-
-// This is better because:
-// this way we can define more eventListeners on one element
-// this way we can remove eventListeners
+  // Matching strategy
+  if (e.target.classList.contains('nav__link')) {
+    e.preventDefault();
+    const id = e.target.getAttribute('href'); // vs. this.href
+    document.querySelector(id).scrollIntoView({behavior: 'smooth'});
+  }
+})
