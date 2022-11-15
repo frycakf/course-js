@@ -1,5 +1,3 @@
-'use strict';
-
 // CONSTRUCTOR FUNCTIONS
 const Person = function (firstName, birthYear) {
   // Properties
