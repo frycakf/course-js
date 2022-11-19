@@ -1,9 +1,22 @@
-'use strict';
+/* === SETTERS and GETTERS === */
+const account = {
+  owner: 'jonas',
+  movements: [200, 530, 120, 300],
 
-// Class expression
-// const PersonCl = class {
-//
-// }
+  // getter
+  get latest() {
+    return this.movements.slice(-1).pop();
+  },
+
+  // setter
+  set latest(mov) { // exactly one parameter
+    this.movements.push(mov);
+  }
+}
+
+console.log(account.latest);
+account.latest = 50;
+console.log(account.movements);
 
 // Class declaration
 class PersonCl {
@@ -35,10 +48,6 @@ class PersonCl {
   get fullName() {
     return this._fullName;
   }
-
-  static hey() {
-    console.log('Hey there 🖐');
-  }
 }
 
 const jessica = new PersonCl('Jessica Davis', 1996);
@@ -47,15 +56,3 @@ jessica.calcAge();
 console.log(jessica.age);
 
 const walter = new PersonCl('Walter White', 1965);
-
-// PersonCl.prototype.greet = function () {
-//   console.log(`Hey ${this.firstName}`);
-// }
-
-jessica.greet();
-
-// 1. Classes are NOT hoisted
-// 2. Classes are first-class citizens (pass them and return them into functions)
-// 3. Classes are executed in strict mode
-
-PersonCl.hey();
