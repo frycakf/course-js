@@ -20,7 +20,7 @@ console.log(arr);
 console.log(arr.unique());
 
 // do not extend build-in object functionality
-// 1. in can collide with future JS methods
+// 1. it can collide with future JS methods
 // 2. when working in team in many developers - can cause bugs
 
 const h1 = document.querySelector('h1');
