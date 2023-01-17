@@ -1,20 +1,35 @@
-// Class Expression
-// const PersonCl = class {
-//
-// }
-
-// Class Declaration
-class PersonCl {
-    constructor(firstName, birthYear) {
-        this.firstName = firstName;
-        this.birthYear = birthYear;
-    }
-
-    calcAge() {
-        console.log(2037 - this.birthYear);
-    }
+const Person = function (firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
 }
 
-const jessica = new PersonCl('Jessica', 1996);
-console.log(jessica);
-jessica.calcAge()
+Person.prototype.calcAge = function () {
+    console.log(2037 - this.birthYear);
+}
+
+const Student = function (firstName, birthYear, course) {
+    Person.call(this, firstName, birthYear)
+    this.course = course;
+}
+
+// Linking prototypes
+Student.prototype = Object.create(Person.prototype);
+
+Student.prototype.introduce = function () {
+    console.log(`My name is ${this.firstName} and I study ${this.course}`);
+}
+
+const mike = new Student('Mike', 2020, 'Computer science');
+
+console.log(mike);
+mike.introduce();
+mike.calcAge();
+
+console.log(mike.__proto__);
+console.log(mike.__proto__.__proto__);
+
+Student.prototype.constructor = Student;
+
+console.log(mike instanceof Student);
+console.log(mike instanceof Person);
+console.dir(Student.prototype.constructor);
