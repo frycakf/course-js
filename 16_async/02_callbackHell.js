@@ -7,7 +7,6 @@ const countriesContainer = document.querySelector('.countries');
 
 // https://restcountries.com/v2/
 
-/*
 const renderCountry = function (data, className = '') {
   const html = `
       <article class="country ${className}">
@@ -54,13 +53,4 @@ const getCountryAndNeighbour = function (country) {
   })
 }
 
-getCountryAndNeighbour('germany'); */
-
-// Old way
-// const request = new XMLHttpRequest();
-// request.open('GET', `https://restcountries.com/v3.1/name/${country}`);
-// request.send();
-
-// New way
-const request = fetch('https://restcountries.com/v3.1/name/portugal');
-console.log(request);
+getCountryAndNeighbour('germany');
