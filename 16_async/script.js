@@ -7,7 +7,7 @@ const countriesContainer = document.querySelector('.countries');
 
 // https://restcountries.com/v2/
 
-/*
+
 const renderCountry = function (data, className = '') {
   const html = `
       <article class="country ${className}">
@@ -25,7 +25,7 @@ const renderCountry = function (data, className = '') {
   countriesContainer.insertAdjacentHTML('beforeend', html);
   countriesContainer.style.opacity = '1';
 }
-
+/*
 const getCountryAndNeighbour = function (country) {
   const request = new XMLHttpRequest();
   request.open('GET', `https://restcountries.com/v3.1/name/${country}`);
@@ -63,4 +63,23 @@ getCountryAndNeighbour('germany'); */
 
 // New way
 const request = fetch('https://restcountries.com/v3.1/name/portugal');
-console.log(request);
+// console.log(request);
+
+// const getCountryData = function (country) {
+//   fetch(`https://restcountries.com/v3.1/name/${country}`)
+//   .then(function(response) {
+//     console.log(response);
+//     return response.json();
+//   })
+//     .then(function (data) {
+//     console.log(data[0]);
+//   })
+// }
+
+const getCountryData = function (country) {
+  fetch(`https://restcountries.com/v3.1/name/${country}`)
+    .then((response) => response.json())
+    .then((data) => renderCountry(data[0]))
+}
+
+getCountryData('portugal');
