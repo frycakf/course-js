@@ -57,7 +57,7 @@ const whereAmI = function (lat, lng) {
 
   fetch(url).then(response => {
     if(response.status === 403) {
-      throw new Error(`You are way too fast thsis time! (ERROR ${response.status})`);
+      throw new Error(`You are way too fast this time! (ERROR ${response.status})`);
     }
 
     return response.json();
