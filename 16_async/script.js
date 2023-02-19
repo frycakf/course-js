@@ -8,23 +8,23 @@ const countriesContainer = document.querySelector('.countries');
 // https://restcountries.com/v2/
 
 
-// const renderCountry = function (data, className = '') {
-//   const html = `
-//       <article class="country ${className}">
-//         <img class="country__img" src="${data.flags.png}" />
-//         <div class="country__data">
-//           <h3 class="country__name">${data.name}</h3>
-//           <h4 class="country__region">${data.region}</h4>
-//           <p class="country__row"><span>👫</span>${(+data.population/1000000).toFixed(1)}</p>
-//           <p class="country__row"><span>🗣️</span>${Object.values(data.languages)[0]}</p>
-//           <p class="country__row"><span>💰</span>${Object.values(data.currencies)[0].name}</p>
-//         </div>
-//       </article>
-//     `;
-//
-//   countriesContainer.insertAdjacentHTML('beforeend', html);
-//   // countriesContainer.style.opacity = '1';
-// }
+const renderCountry = function (data, className = '') {
+  const html = `
+      <article class="country ${className}">
+        <img class="country__img" src="${data.flags.png}" />
+        <div class="country__data">
+          <h3 class="country__name">${data.name}</h3>
+          <h4 class="country__region">${data.region}</h4>
+          <p class="country__row"><span>👫</span>${(+data.population/1000000).toFixed(1)}</p>
+          <p class="country__row"><span>🗣️</span>${Object.values(data.languages)[0].name}</p>
+          <p class="country__row"><span>💰</span>${Object.values(data.currencies)[0].name}</p>
+        </div>
+      </article>
+    `;
+
+  countriesContainer.insertAdjacentHTML('beforeend', html);
+  // countriesContainer.style.opacity = '1';
+}
 
 
 // const renderError = function (msg) {
@@ -164,40 +164,81 @@ getCountryAndNeighbour('germany'); */
 //
 // getCountryData('australia')
 
-const lotteryPromise = new Promise(function (resolve, reject) {
-  console.log('Lottery draw is happening...');
-  setTimeout(function () {
-    if(Math.random() >= 0.5) {
-      resolve('You WIN!')
-    } else {
-      reject(new Error('You lost your money.'))
-    }
-  }, 1000)
-})
+// const lotteryPromise = new Promise(function (resolve, reject) {
+//   console.log('Lottery draw is happening...');
+//   setTimeout(function () {
+//     if(Math.random() >= 0.5) {
+//       resolve('You WIN!')
+//     } else {
+//       reject(new Error('You lost your money.'))
+//     }
+//   }, 1000)
+// })
+//
+// lotteryPromise
+//   .then(res => console.log(res))
+//   .catch(err => console.error(err))
+//
+// // Promisifying setTimeout
+// const wait = function (seconds) {
+//   return new Promise(function (resolve) {
+//     setTimeout(resolve, seconds * 1000)
+//   })
+// }
+//
+// wait(2)
+//   .then(() => {
+//     console.log('I waited for 2 seconds');
+//     return wait(1);
+//   })
+//   .then(() => {
+//     console.log('I waited for 1 second');
+//   })
+//
+// // Resolving and rejecting immediately
+// Promise.resolve('abc')
+//   .then(x => console.log(x))
+//
+// Promise.reject('abc')
+//   .catch(x => console.error(x))
 
-lotteryPromise
-  .then(res => console.log(res))
-  .catch(err => console.error(err))
 
-// Promisifying setTimeout
-const wait = function (seconds) {
-  return new Promise(function (resolve) {
-    setTimeout(resolve, seconds * 1000)
+console.log('Getting position');
+
+const getPosition = function () {
+  return new Promise(function (resolve, reject) {
+    // navigator.geolocation.getCurrentPosition(
+    //   position => resolve(position),
+    //   err => reject()
+    // );
+    navigator.geolocation.getCurrentPosition(resolve, reject)
   })
 }
 
-wait(2)
-  .then(() => {
-    console.log('I waited for 2 seconds');
-    return wait(1);
-  })
-  .then(() => {
-    console.log('I waited for 1 second');
-  })
+// getPosition().then(pos => console.log(pos));
 
-// Resolving and rejecting immediately
-Promise.resolve('abc')
-  .then(x => console.log(x))
+const whereAmI = function () {
+  getPosition().then(pos => {
+    const {latitude: lat, longitude: lng} = pos.coords;
+    return fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`)
+  })
+  .then(response =>  response.json())
+  .then(data => {
+    // console.log(`You are in ${data.city}, ${data.country}`);
+    return fetch(`https://restcountries.com/v2/name/${data.country}`);
+  })
+  .then(response => {
+    return response.json();
+  })
+  .then(data => {
+    renderCountry(data[0])
+  })
+  .catch(error => {
+    console.log(error);
+  })
+  .finally(() => {
+    countriesContainer.style.opacity = '1';
+  })
+}
 
-Promise.reject('abc')
-  .catch(x => console.error(x))
+btn.addEventListener('click', whereAmI)
