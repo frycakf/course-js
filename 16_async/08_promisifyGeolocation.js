@@ -13,10 +13,11 @@ const getPosition = function () {
 // getPosition().then(pos => console.log(pos));
 
 const whereAmI = function () {
-  getPosition().then(pos => {
-    const {latitude: lat, longitude: lng} = pos.coords;
-    return fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`)
-  })
+  getPosition()
+    .then(pos => {
+      const {latitude: lat, longitude: lng} = pos.coords;
+      return fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`)
+    })
     .then(response =>  response.json())
     .then(data => {
       // console.log(`You are in ${data.city}, ${data.country}`);
