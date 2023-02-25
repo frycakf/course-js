@@ -276,7 +276,7 @@ const whereAmI = async function () {
   }
 }
 
-console.log('1: Will get location');
+// console.log('1: Will get location');
 
 // const city = whereAmI();
 // console.log(city); // <= THIS RETURNS A PROMISE (which we dont want) !!!
@@ -288,12 +288,44 @@ console.log('1: Will get location');
 
 // IN THE FUNCTION ABOVE, IT IS NOT NICE THAT WE USE OLD SYNTAX (then()) WITH NEW SYNTAX (catch())
 // SO WE USE IIFE
-(async function () {
+// (async function () {
+//   try {
+//     const city = await whereAmI();
+//     console.log(city)
+//   } catch (err) {
+//     console.error(`2: ${err.message}`)
+//   }
+//   console.log('3: Finished getting location')
+// })();
+
+const getJSON = function (url, errorMsg = 'Something went wrong') {
+  return fetch(url).then(response => {
+    if(!response.ok) {
+      throw new Error(`${errorMsg} (${response.status})`);
+    }
+
+    return response.json();
+  })
+}
+
+const get3Countries = async function(c1, c2, c3) {
   try {
-    const city = await whereAmI();
-    console.log(city)
+    // const [data1] = await getJSON(`https://restcountries.com/v2/name/${c1}`)
+    // const [data2] = await getJSON(`https://restcountries.com/v2/name/${c2}`)
+    // const [data3] = await getJSON(`https://restcountries.com/v2/name/${c3}`)
+    // console.log([data1.capital, data2.capital, data3.capital]);
+
+    const data = await Promise.all([
+      getJSON(`https://restcountries.com/v2/name/${c1}`),
+      getJSON(`https://restcountries.com/v2/name/${c2}`),
+      getJSON(`https://restcountries.com/v2/name/${c3}`)
+    ])
+
+    console.log(data.map(d => d[0].capital));
+
   } catch (err) {
-    console.error(`2: ${err.message}`)
+    console.log(err);
   }
-  console.log('3: Finished getting location')
-})();
+}
+
+get3Countries('portugal', 'canada', 'tanzania');
