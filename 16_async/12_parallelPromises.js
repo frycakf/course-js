@@ -22,6 +22,7 @@ const get3Countries = async function(c1, c2, c3) {
     ])
 
     console.log(data.map(d => d[0].capital));
+    // Be aware!!! If one promise is rejected, the whole promise will be rejected
 
   } catch (err) {
     console.log(err);
