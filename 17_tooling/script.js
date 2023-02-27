@@ -1,5 +1,5 @@
 import * as ShoppingCart from './shoppingCart.js'
-// import {cart} from "./shoppingCart.js";
+import {cart} from "./shoppingCart.js";
 
 // console.log('Start fetching');
 // const res = await fetch('https://jsonplaceholder.typicode.com/posts');
@@ -23,31 +23,55 @@ import * as ShoppingCart from './shoppingCart.js'
 // const lastPost2 = await getLastPost();
 // console.log(lastPost2);
 
-const ShoppingCart2 = (function() {
-  const cart = [];
-  const shippingCost = 10;
-  const totalPrice = 237;
-  const totalQuantity = 23;
+// const ShoppingCart2 = (function() {
+//   const cart = [];
+//   const shippingCost = 10;
+//   const totalPrice = 237;
+//   const totalQuantity = 23;
+//
+//   const addToCart = function (product, quantity) {
+//     cart.push({product, quantity});
+//     console.log(`${quantity} ${product} added to cart`);
+//   }
+//
+//   const orderStock = function (product, quantity) {
+//     cart.push({product, quantity});
+//     console.log(`${quantity} ${product} ordered from supplier`);
+//   }
+//
+//   return {
+//     addToCart,
+//     cart,
+//     totalPrice,
+//     totalQuantity
+//   }
+// })();
+//
+// ShoppingCart2.addToCart('apple', 4)
+// ShoppingCart2.addToCart('pizza', 2)
+// console.log(ShoppingCart2);
+// console.log(ShoppingCart2.shippingCost); // = not exported = undefined
 
-  const addToCart = function (product, quantity) {
-    cart.push({product, quantity});
-    console.log(`${quantity} ${product} added to cart`);
-  }
+// import clodeDeep from './node_modules/lodash-es/cloneDeep.js'
+import clodeDeep from 'lodash-es'
+// import clodeDeep from 'lodash
 
-  const orderStock = function (product, quantity) {
-    cart.push({product, quantity});
-    console.log(`${quantity} ${product} ordered from supplier`);
-  }
+const state = {
+  cart: [
+    {product: 'bread', quantity: 5},
+    {product: 'pizza', quantity: 5},
+  ],
+  user: {loggedIn: true}
+}
 
-  return {
-    addToCart,
-    cart,
-    totalPrice,
-    totalQuantity
-  }
-})();
+const stateClone = Object.assign({}, state);
+const stateDeepClone = clodeDeep(state);
+state.user.loggedIn = false;
+console.log(stateClone);
 
-ShoppingCart2.addToCart('apple', 4)
-ShoppingCart2.addToCart('pizza', 2)
-console.log(ShoppingCart2);
-console.log(ShoppingCart2.shippingCost); // = not exported = undefined
+
+console.log(stateDeepClone);
+
+if(module.hot) {
+  module.hot.accept()
+}
