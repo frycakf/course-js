@@ -1,6 +1,7 @@
 import * as ShoppingCart from './shoppingCart.js'
 import {cart} from "./shoppingCart.js";
 
+
 // console.log('Start fetching');
 // const res = await fetch('https://jsonplaceholder.typicode.com/posts');
 // const data = await res.json();
@@ -52,7 +53,7 @@ import {cart} from "./shoppingCart.js";
 // console.log(ShoppingCart2);
 // console.log(ShoppingCart2.shippingCost); // = not exported = undefined
 
-// import clodeDeep from './node_modules/lodash-es/cloneDeep.js'
+import clodeDeep from './node_modules/lodash-es/cloneDeep.js'
 import clodeDeep from 'lodash-es'
 // import clodeDeep from 'lodash
 
@@ -72,6 +73,14 @@ console.log(stateClone);
 
 console.log(stateDeepClone);
 
-if(module.hot) {
-  module.hot.accept()
-}
+// if(module.hot) {
+//   module.hot.accept()
+// }
+
+Promise.resolve('TEST').then(x => console.log(x));
+
+// import 'core-js/stable'
+import 'core-js/stable/array/find'
+
+// Polyfilling async functions
+import 'regenerator-runtime/runtime'
