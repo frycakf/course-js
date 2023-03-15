@@ -1,20 +1,19 @@
 import icons from 'url:../../img/icons.svg';
 import {Fraction} from 'fractional';
-console.log(Fraction);
 
 export class RecipeView {
   #parentElement = document.querySelector('.recipe');
   #data;
+
+  #clear() {
+    this.#parentElement.innerHTML ='';
+  }
 
   render(data) {
     this.#data = data;
     const markup = this.#generateMarkup();
     this.#clear();
     this.#parentElement.insertAdjacentHTML('afterbegin', markup);
-  }
-
-  #clear() {
-    this.#parentElement.innerHTML ='';
   }
 
   renderSpinner = function () {
