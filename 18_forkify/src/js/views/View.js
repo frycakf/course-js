@@ -3,6 +3,16 @@ import icons from 'url:../../img/icons.svg';
 export default class View {
   _data;
 
+  /**
+   *  Render the received object to the DOM
+   *  @param { Object | Object[] } data The data to be rendered (ex. recipe)
+   *  @param { boolean } [render=true] If false, create markup string instead of rendering to the DOM
+   *  @returns { undefined | string } A markup is returned if render=false
+   *  @this { Object } View instance
+   *  @author Filip Frycak
+   *  @todo Finish implementation
+   **/
+
   _clear() {
     this._parentElement.innerHTML ='';
   }
